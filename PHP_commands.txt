@@ -1,6 +1,5 @@
 ﻿OH HI MARK!!!
 YEAH, REALLY
-FCKING SLAVES
 
 -------------СОЗДАНИЕ ЛИДОВ-------------
 $root = $this->GetRootActivity();
