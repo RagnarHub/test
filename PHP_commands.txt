@@ -5,6 +5,7 @@ TAK-TAK-TAK
 WHAT TUT U NAS???
 
 Nothing interedting there
+Or not???
 
 -------------СОЗДАНИЕ ЛИДОВ-------------
 $root = $this->GetRootActivity();
