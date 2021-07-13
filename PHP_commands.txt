@@ -1,0 +1,125 @@
+﻿OH HI MARK!!!
+
+-------------СОЗДАНИЕ ЛИДОВ-------------
+$root = $this->GetRootActivity();
+$quantity = $root->GetVariable('Variable1');
+$seria = $root->GetVariable('random_string');
+$i = 0;
+while ($i < $quantity) {
+    $i = $i + 1;
+    $entity = new CCrmLead; 
+    $fields = array( 
+        'TITLE' => 'Лид-терминатор серии '.$seria.', номер '.$i,
+        'STATUS_ID' => 'PROCESSED',
+        'COMMENTS' => 'Это лид из массового спавна лидов. Скоро они захватят этот портал.',
+        'SOURCE_DESCRIPTION' => 'СЛАВА ЛИДАМ!!!',
+        'UF_CRM_SORT_FIELD' => '50',
+        'UF_CRM_NUNBER' => $i,
+        'UF_CRM_SERIA' => $seria,
+    ); 
+    echo $entity->add($fields);
+};
+
+$this -> SetVariable('Variable2', $i);
+
+
+
+-------------ФИЛЬТР ПО ЛИДАМ-------------
+$arOrder =Array();
+$arFilter = Array(
+    "="."UF_CRM_NUNBER"=>'1',
+    "="."UF_CRM_SORT_FIELD"=>'50'
+);
+$arGroupBy = false;
+$arNavStartParams = false;
+$arSelectFields = Array("ID");
+$res = CCrmLead::GetListEx($arOrder, $arFilter, $arGroupBy, $arNavStartParams, $arSelectFields);
+
+$total = Array();
+while($ob = $res->GetNext()) {
+$total[] = $ob;
+};
+
+$this -> SetVariable('Variable1', $total);
+
+
+
+-------------ФИЛЬТР ПО СПИСКАМ-------------
+$arSelect = Array("ID");
+$arFilter = Array("IBLOCK_ID"=>17, "PROPERTY_70"=>5);
+$res = CIBlockElement::GetList(Array(), $arFilter, false, Array("nPageSize"=>50), $arSelect);
+
+$total = Array();
+while($ob = $res->GetNextElement()) {
+$arFields = $ob->GetFields();
+$total[] = $arFields;
+};
+
+$this -> SetVariable('Variable1', $total);
+
+
+
+
+-------------СОЗДАТЬ ЧАТ-------------
+$chat = new \CIMChat;
+$chat->Add(array(
+    'TITLE' => 'Клоповник2',
+    'DESCRIPTION' => 'Прыгаем по коробке',
+    'COLOR' => 'RED',
+    'TYPE' => IM_MESSAGE_OPEN,
+    'AUTHOR_ID' => '1',
+));
+
+
+
+
+-------------ПРИГЛАСИТЬ В ЧАТ-------------
+$chat = new \CIMChat; 
+$chat->AddUser(9, 5, $hideHistory = null, $skipMessage = false); 
+
+
+
+
+-------------НАПИСАТЬ В ЧАТ-------------
+\CIMChat::AddMessage(array( 
+    'FROM_USER_ID' => 4,
+    'TO_CHAT_ID' => 9,
+    'MESSAGE' => 'Иди, играй в другой песочнице!!!' 
+));
+
+
+
+--------------------------------------------------------------
+получение стандартных полей срм
+
+$mark_check = CCrmContact::GetByID($local_id);
+$name = $mark_check['NAME']
+
+--------------------------------------------------------------
+вроде как загрузка файла, но хз куда
+
+$arIMAGE = $_FILES["file"];
+$fid = CFile::SaveFile($arIMAGE, "main");
+if (intval($fid)>0) $arFields["IMAGE_ID"] = intval($fid); 
+else $arFields["IMAGE_ID"] = "null";
+//$DB->Update("b_vote",$arFields,"WHERE ID='".$ID."'",$err_mess.__LINE__);
+
+echo($fileid = $arFields["IMAGE_ID"]);
+
+-------------------------------------------------------------
+нормальная загрузка файла из временной директории при пост-запросе
+
+//$file_name = $_FILES['file'] - массив данных о файле, 'file' - название параметра в пост-запросе, может меняться..?
+
+//читаем данный по файлу из пост-запроса
+$file_name = $_FILES['file']['name'];
+$file_type = $_FILES['file']['type'];
+$file_tmp_name = $_FILES['file']['tmp_name'];  //тут временный путь к файлу
+$file_size = $_FILES['file']['size'];
+
+//подгружаем файл
+$uploadFileDir = $_SERVER["DOCUMENT_ROOT"]."/pictures/";  //куда загрузить
+$dest_path = $uploadFileDir . $file_name;   //формируем новый путь к файлу
+move_uploaded_file($file_tmp_name, $dest_path);  //перемещаем из временного хранилища
+
+
