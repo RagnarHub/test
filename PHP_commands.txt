@@ -1,6 +1,8 @@
 ﻿OH HI MARK!!!
 YEAH, REALLY
 
+Nothing interedting there
+
 -------------СОЗДАНИЕ ЛИДОВ-------------
 $root = $this->GetRootActivity();
 $quantity = $root->GetVariable('Variable1');
