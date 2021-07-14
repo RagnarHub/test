@@ -1,4 +1,5 @@
-﻿$root = $this->GetRootActivity();
+﻿<?php
+$root = $this->GetRootActivity();
 $quantity = $root->GetVariable('Variable1');
 $seria = $root->GetVariable('random_string');
 $i = 0;
