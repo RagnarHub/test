@@ -21,3 +21,4 @@ while ($i < $quantity) {
 $this -> SetVariable('Variable2', $i);
 
 //девелоп - первый коммит
+//коммит на отведенной ветке - бросаем
